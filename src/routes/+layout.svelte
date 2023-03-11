@@ -3,7 +3,14 @@
 </script>
 
 <nav>
-	<a href="/">Home</a>
+	<ul>
+		<li>
+			<a href="/">Home</a>
+		</li>
+		<li>
+			<a href="/room">Rooms</a>
+		</li>
+	</ul>
 </nav>
 
 <main>
@@ -14,6 +21,12 @@
 	nav {
 		padding: 1rem;
 		background-color: #eee;
+	}
+	ul {
+		list-style-type: none;
+		display: flex;
+		gap: 1rem;
+		margin: 0;
 	}
 
 	main {
