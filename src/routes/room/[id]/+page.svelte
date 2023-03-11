@@ -1,7 +1,15 @@
 <script lang="ts">
+	import { io } from 'socket.io-client';
 	import type { PageData } from "./$types";
 	export let data: PageData;
 	const room = data.room;
+
+	const socket = io();
+	
+	socket.on('message', (message) => {
+		console.log(message);
+	});
+	
 </script>
 
 {#if room}
