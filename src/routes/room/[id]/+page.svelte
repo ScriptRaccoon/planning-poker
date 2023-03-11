@@ -7,17 +7,26 @@
 
 	const id = $page.params.id;
 
+	let members: any[] = [];
+
 	const socket = io();
 
 	socket.on("connect", () => {
-		socket.emit("room_id", id);
+		if (name) {
+			socket.emit("name", name);
+			socket.emit("room_id", id);
+		}
 	});
 
-	socket.on("member", (member) => {
-		console.log("new member joined the room:", member);
+	socket.on("members", (_members) => {
+		members = _members;
 	});
 </script>
 
 <h2>Room {id}</h2>
 
 <p>Hi, {name}!</p>
+
+<b>Members:</b>
+
+{JSON.stringify(members)}
