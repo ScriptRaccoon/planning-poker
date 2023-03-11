@@ -6,15 +6,18 @@
 
 	let room_id = "";
 
-	async function create_new_room() {
-		const res = await fetch("/create", {
-			method: "POST",
-		});
-		const data = await res.json();
-		const { id } = data;
-		if (id) {
-			goto(`/room/${id}`);
+	function generate_id(length = 6) {
+		let id = "";
+		for (let i = 0; i < length; i++) {
+			const num = Math.floor(Math.random() * 10);
+			id += num.toString();
 		}
+		return id;
+	}
+
+	async function create_new_room() {
+		const id = generate_id();
+		goto(`/room/${id}`);
 	}
 
 	function join_existing_room() {
