@@ -11,7 +11,11 @@ const socket_io_plugin = {
 		const io = new ioServer(server.httpServer!);
 		io.on("connection", (socket) => {
 			console.log("got connection with", socket.id);
-			socket.emit("message", "Hi there!");
+
+			socket.on("room_id", (id) => {
+				socket.join(id);
+				io.to(id).emit("member", socket.id);
+			});
 		});
 	},
 };
