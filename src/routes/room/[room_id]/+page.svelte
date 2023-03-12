@@ -120,16 +120,25 @@
 
 <style>
 	.cards {
-		display: flex;
-		flex-wrap: wrap;
+		width: fit-content;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
 		gap: 1rem;
 		padding-block: 1rem;
 	}
 
+	@media (max-width: 26rem) {
+		.cards {
+			margin: 0 auto;
+			place-items: center;
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
 	.card {
 		padding: 0;
-		width: 4rem;
-		height: 5.5rem;
+		width: 5rem;
+		height: 6.5rem;
 		border: 0.1rem solid gray;
 		border-radius: 0.4rem;
 		display: flex;
