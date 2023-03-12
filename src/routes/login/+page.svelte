@@ -5,12 +5,12 @@
 	export let form: ActionData;
 </script>
 
-<h2>Login</h2>
+<h1>Login</h1>
 
 <form method="POST">
 	<label>Name<br /><input type="text" name="name" required /></label
 	>
-	<button>Login</button>
+	<button class="button">Login</button>
 </form>
 
 {#if form}

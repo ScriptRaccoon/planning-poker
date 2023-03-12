@@ -34,7 +34,7 @@
 
 <form on:submit|preventDefault>
 	<p>
-		<button on:click={create_new_room}
+		<button class="button" on:click={create_new_room}
 			>Create and join new room</button
 		>
 	</p>
@@ -42,6 +42,7 @@
 	<p>
 		<input type="text" bind:value={room_id} />
 		<button
+			class="button"
 			disabled={room_id.length == 0}
 			on:click={join_existing_room}>Join existing room</button
 		>
