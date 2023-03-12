@@ -6,6 +6,6 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 	if (!name) {
 		throw redirect(307, "/login");
 	}
-	const { id } = params;
-	return { name, id };
+	const { room_id } = params;
+	return { name, room_id };
 };

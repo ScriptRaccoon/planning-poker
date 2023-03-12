@@ -27,5 +27,4 @@
 	<p>
 		You are logged in as {data.name}.
 	</p>
-	<p>You can use the form above to change your name.</p>
 {/if}

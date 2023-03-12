@@ -9,13 +9,11 @@ export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const name = data.get("name") as string;
-		if (name) {
-			const one_day = 60 * 60 * 24;
-			cookies.set("name", name, {
-				path: "/",
-				maxAge: one_day,
-			});
-			return { name };
-		}
+		const one_day = 60 * 60 * 24;
+		cookies.set("name", name, {
+			path: "/",
+			maxAge: one_day,
+		});
+		return { name };
 	},
 };

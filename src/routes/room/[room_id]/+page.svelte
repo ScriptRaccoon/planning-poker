@@ -3,26 +3,24 @@
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
-
-	const { name, id: room_id } = data;
+	const { name, room_id } = data;
 
 	let members: member[] = [];
 
-	let revealed = false;
+	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21] as const;
+
+	let estimate: number | null = null;
+	let estimates_revealed = false;
 
 	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 		io();
-
-	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21];
-
-	let estimate: number | null = null;
 
 	function choose_estimate(_estimate: number) {
 		estimate = _estimate;
 		socket.emit("estimate", { estimate, room_id });
 	}
 
-	function reset_my_estimate() {
+	function reset_estimate() {
 		estimate = null;
 		socket.emit("reset_estimate", room_id);
 	}
@@ -44,12 +42,12 @@
 	});
 
 	socket.on("reset_estimate", () => {
-		reset_my_estimate();
-		revealed = false;
+		reset_estimate();
+		estimates_revealed = false;
 	});
 
 	socket.on("reveal_estimates", () => {
-		revealed = true;
+		estimates_revealed = true;
 	});
 </script>
 
@@ -76,20 +74,23 @@
 <menu>
 	<button
 		class="button"
-		on:click={reset_my_estimate}
-		disabled={estimate === null}>Reset</button
+		on:click={reset_estimate}
+		disabled={estimate === null}
 	>
+		Reset
+	</button>
 
 	<button
 		class="button"
 		on:click={reveal_estimates}
-		disabled={revealed}
+		disabled={estimates_revealed}
 	>
-		Reveal
+		Reveal all
 	</button>
+
 	<button class="button danger" on:click={reset_all_estimates}>
-		Reset all</button
-	>
+		Reset all
+	</button>
 </menu>
 
 <h2>Estimates</h2>
@@ -99,7 +100,7 @@
 		<tr>
 			<td>{member.name}</td>
 			<td>
-				{#if revealed}
+				{#if estimates_revealed}
 					<span class="estimate">
 						{@html member.estimate ?? "&ndash;"}
 					</span>
@@ -124,6 +125,7 @@
 		gap: 1rem;
 		padding-block: 1rem;
 	}
+
 	.card {
 		padding: 0;
 		width: 4rem;
@@ -154,7 +156,6 @@
 
 	td:nth-child(2) {
 		padding-left: 0.25rem;
-		color: var(--primary-color);
 	}
 
 	.circle {
@@ -169,6 +170,7 @@
 	}
 
 	.estimate {
+		color: var(--primary-color);
 		font-weight: bold;
 	}
 </style>
