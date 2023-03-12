@@ -2,6 +2,8 @@
 	import { debounce } from "@/lib/utils";
 	import { io, Socket } from "socket.io-client";
 	import type { PageData } from "./$types";
+	import { scale, fade } from "svelte/transition";
+	import { backOut } from "svelte/easing";
 
 	export let data: PageData;
 	const { name, room_id } = data;
@@ -122,11 +124,19 @@
 			<td>{member.name}</td>
 			<td>
 				{#if estimates_revealed}
-					<span class="estimate">
+					<span
+						class="estimate"
+						in:scale|local={{
+							duration: 400,
+							easing: backOut,
+						}}
+						out:fade={{ duration: 200 }}
+					>
 						{@html member.estimate ?? "&ndash;"}
 					</span>
 				{:else}
-					<div
+					<span
+						in:fade={{ duration: 200, delay: 210 }}
 						aria-label={member.estimate != null
 							? "Estimated"
 							: "Not estimated"}
@@ -185,14 +195,17 @@
 	}
 
 	td:nth-child(2) {
-		padding-left: 0.25rem;
+		padding-inline: 0.5rem;
+		text-align: center;
 	}
 
 	.circle {
+		display: inline-block;
 		width: 1.2rem;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: var(--secondary-color);
+		transform: translateY(0.1rem);
 	}
 
 	.circle.estimated {
@@ -202,6 +215,7 @@
 	.estimate {
 		color: var(--primary-color);
 		font-weight: bold;
+		display: inline-block;
 	}
 
 	h2 {
