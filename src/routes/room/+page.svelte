@@ -28,23 +28,56 @@
 			goto(`/room/${room_id}`);
 		}
 	}
+
+	const id_pattern = "^\\d{6}$";
 </script>
 
 <h1>Rooms</h1>
 
-<form on:submit|preventDefault>
-	<p>
-		<button class="button" on:click={create_new_room}
-			>Create and join new room</button
-		>
-	</p>
+<p>Choose one of the following options.</p>
 
-	<p>
-		<input type="text" bind:value={room_id} />
-		<button
-			class="button"
-			disabled={room_id.length == 0}
-			on:click={join_existing_room}>Join existing room</button
-		>
-	</p>
-</form>
+<div class="options">
+	<div class="option">
+		<h2>Create new room</h2>
+		<p>
+			<button class="button" on:click={create_new_room}
+				>Create new room</button
+			>
+		</p>
+	</div>
+	<div class="option">
+		<h2>Join room</h2>
+		<form on:submit|preventDefault={join_existing_room}>
+			<label for="room_input">Room ID (6 digits)</label>
+			<input
+				pattern={id_pattern}
+				id="room_input"
+				type="text"
+				bind:value={room_id}
+				required
+			/>
+			<p>
+				<button class="button">Join room</button>
+			</p>
+		</form>
+	</div>
+</div>
+
+<style>
+	.options {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		max-width: 16rem;
+		gap: 1rem;
+	}
+	.option {
+		background-color: var(--light-color);
+		padding: 1rem;
+		border-radius: 0.5rem;
+	}
+
+	label {
+		margin-top: 0.5rem;
+	}
+</style>

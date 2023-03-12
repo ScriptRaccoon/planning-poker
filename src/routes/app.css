@@ -19,11 +19,7 @@ a {
 }
 
 h1 {
-	margin-block: 1rem;
-}
-
-h2 {
-	margin-block: 0.5rem;
+	padding-block: 1rem;
 }
 
 p {
@@ -37,6 +33,16 @@ input {
 	font-size: inherit;
 	border: 0.1rem solid gray;
 	padding: 0.2rem;
+	outline: none;
+	background-color: #fff;
+}
+
+input:focus {
+	border-color: var(--primary-color);
+}
+
+input:focus:invalid {
+	border-color: var(--secondary-color);
 }
 
 button {
@@ -51,7 +57,7 @@ button {
 
 button:disabled {
 	opacity: 0.5;
-	cursor: not-allowed;
+	cursor: initial;
 }
 
 .button {
@@ -63,4 +69,8 @@ button:disabled {
 
 button.danger {
 	background-color: var(--secondary-color);
+}
+
+label {
+	display: block;
 }

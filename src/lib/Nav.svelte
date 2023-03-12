@@ -20,6 +20,7 @@
 	ul {
 		list-style-type: none;
 		display: flex;
+		justify-content: center;
 		gap: 1rem;
 		margin: 0;
 	}

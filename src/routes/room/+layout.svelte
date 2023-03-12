@@ -14,7 +14,7 @@
 
 <style>
 	.status {
-		margin-block: 0.5rem;
+		margin-top: 0.5rem;
 		text-align: right;
 	}
 	.name {

@@ -12,8 +12,8 @@
 <h1>Login</h1>
 
 <form method="POST">
-	<label>Name<br /><input type="text" name="name" required /></label
-	>
+	<label for="name_input">Name</label>
+	<input id="name_input" type="text" name="name" required />
 	<button class="button">Login</button>
 </form>
 

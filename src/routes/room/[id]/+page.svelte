@@ -145,17 +145,21 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		padding-block: 1rem;
+		padding-block: 1rem 2rem;
 	}
 
 	table {
-		border-spacing: 0.5rem;
-		font-size: 1.2rem;
+		font-size: 1.25rem;
+	}
+
+	td:nth-child(2) {
+		padding-left: 0.25rem;
+		color: var(--primary-color);
 	}
 
 	.circle {
-		width: 1rem;
-		height: 1rem;
+		width: 1.2rem;
+		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: var(--secondary-color);
 	}
