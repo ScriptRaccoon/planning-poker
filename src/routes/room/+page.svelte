@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { browser } from "$app/environment";
 	import { goto } from "$app/navigation";
+	import type { PageData } from "./$types";
 
-	let name = browser ? localStorage.getItem("name") : "";
+	export let data: PageData;
+
+	const { name } = data;
 
 	let room_id = "";
 
@@ -27,22 +30,20 @@
 	}
 </script>
 
-<h2>Rooms</h2>
+<h1>Rooms</h1>
 
-{#if name}
-	<p>Hi, {name}!</p>
-
+<form on:submit|preventDefault>
 	<p>
-		<button on:click={create_new_room}>Create new room</button>
+		<button on:click={create_new_room}
+			>Create and join new room</button
+		>
 	</p>
 
 	<p>
+		<input type="text" bind:value={room_id} />
 		<button
 			disabled={room_id.length == 0}
 			on:click={join_existing_room}>Join existing room</button
 		>
-		<input type="text" bind:value={room_id} />
 	</p>
-{:else}
-	<p>You are not logged in.</p>
-{/if}
+</form>

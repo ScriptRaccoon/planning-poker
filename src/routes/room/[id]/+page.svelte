@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
 	import { io } from "socket.io-client";
+	import type { PageData } from "./$types";
 
-	let name = browser ? localStorage.getItem("name") : "";
+	export let data: PageData;
 
-	const id = $page.params.id;
+	const { name, id } = data;
 
 	let members: any[] = [];
 
@@ -23,9 +22,7 @@
 	});
 </script>
 
-<h2>Room {id}</h2>
-
-<p>Hi, {name}!</p>
+<h1>Room {id}</h1>
 
 <b>Members:</b>
 
