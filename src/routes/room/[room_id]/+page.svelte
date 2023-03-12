@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { debounce } from "@/lib/utils";
 	import { io, Socket } from "socket.io-client";
 	import type { PageData } from "./$types";
 
@@ -11,6 +12,8 @@
 
 	let estimate: estimate_type = null;
 	let estimates_revealed = false;
+
+	let story = "";
 
 	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 		io();
@@ -49,6 +52,14 @@
 	socket.on("reveal_estimates", () => {
 		estimates_revealed = true;
 	});
+
+	socket.on("story", (_story) => {
+		story = _story;
+	});
+
+	const emit_story = debounce(() => {
+		socket.emit("story", { story, room_id });
+	}, 250);
 </script>
 
 <svelte:head>
@@ -56,6 +67,16 @@
 </svelte:head>
 
 <h1>Room {room_id}</h1>
+
+<form on:submit|preventDefault class="story_form">
+	<label for="story_input">User story</label>
+	<input
+		id="story_input"
+		bind:value={story}
+		on:input={emit_story}
+	/>
+	<a href={story} target="_blank">Open</a>
+</form>
 
 <h2>Choose an estimate</h2>
 
@@ -156,7 +177,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		padding-block: 1rem 2rem;
+		padding-block: 1rem;
 	}
 
 	table {
@@ -181,5 +202,19 @@
 	.estimate {
 		color: var(--primary-color);
 		font-weight: bold;
+	}
+
+	h2 {
+		padding-top: 1rem;
+	}
+
+	label {
+		display: inline;
+	}
+
+	.story_form {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 0.5rem;
 	}
 </style>

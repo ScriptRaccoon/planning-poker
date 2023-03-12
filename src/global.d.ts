@@ -2,6 +2,7 @@ interface ServerToClientEvents {
 	members: (x: member[]) => void;
 	reveal_estimates: () => void;
 	reset_estimate: () => void;
+	story: (x: string) => void;
 }
 
 type estimate_type = number | "?" | null;
@@ -15,6 +16,7 @@ interface ClientToServerEvents {
 	reveal_estimates: (room_id: string) => void;
 	reset_estimates: (room_id: string) => void;
 	reset_estimate: (room_id: string) => void;
+	story: (x: { room_id: string; story: string }) => void;
 }
 
 interface InterServerEvents {}

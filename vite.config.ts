@@ -74,6 +74,11 @@ const socket_io_plugin = {
 				io.to(room_id).emit("reset_estimate");
 			});
 
+			// USER STORY
+			socket.on("story", ({ room_id, story }) => {
+				io.to(room_id).emit("story", story);
+			});
+
 			// DISCONNECT
 			socket.on("disconnect", async () => {
 				const member = members.find((m) => m.id == socket.id);
