@@ -23,6 +23,7 @@
 
 <h1>Room {id}</h1>
 
-<b>Members:</b>
-
-{JSON.stringify(members)}
+<div>
+	<b>Members:</b>
+	{members.map((m) => m.name)}
+</div>
