@@ -6,7 +6,8 @@
 
 :root {
 	--primary-color: darkgreen;
-	--secondary-color: tomato;
+	--secondary-color: rgb(207, 47, 47);
+	--light-color: #eee;
 }
 
 body {
@@ -17,9 +18,12 @@ a {
 	color: inherit;
 }
 
-h1,
+h1 {
+	margin-block: 1rem;
+}
+
 h2 {
-	padding-block: 1rem;
+	margin-block: 0.5rem;
 }
 
 p {
@@ -42,6 +46,7 @@ button {
 	border: none;
 	font-size: inherit;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 button:disabled {
@@ -52,5 +57,10 @@ button:disabled {
 .button {
 	background-color: var(--primary-color);
 	color: white;
-	padding: 0.2rem 0.4rem;
+	padding: 0.3rem 0.5rem;
+	border-radius: 0.25rem;
+}
+
+button.danger {
+	background-color: var(--secondary-color);
 }

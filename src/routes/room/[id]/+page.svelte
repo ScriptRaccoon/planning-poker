@@ -77,14 +77,15 @@
 	<button
 		class="button"
 		on:click={reset_my_estimate}
-		disabled={estimate === null}>Reset my estimate</button
+		disabled={estimate === null}>Reset</button
 	>
-	<button class="button" on:click={reset_all_estimates}>
-		Reset all estimates</button
-	>
+
 	<button class="button" on:click={reveal_estimates}>
-		Reveal estimates
+		Reveal
 	</button>
+	<button class="button danger" on:click={reset_all_estimates}>
+		Reset all</button
+	>
 </menu>
 
 <h2>Estimates</h2>
@@ -124,12 +125,12 @@
 		width: 4rem;
 		height: 5.5rem;
 		border: 0.1rem solid gray;
-		border-radius: 0.5rem;
+		border-radius: 0.4rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		font-size: 2.5rem;
-		background-color: #f4f4f4;
+		background: linear-gradient(to bottom right, #fff, #e0e0e0);
 	}
 
 	.card.chosen {
@@ -138,7 +139,8 @@
 
 	menu {
 		display: flex;
-		gap: 1rem;
+		flex-wrap: wrap;
+		gap: 0.5rem;
 		padding-block: 1rem;
 	}
 

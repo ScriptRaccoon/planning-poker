@@ -6,12 +6,18 @@
 	const { name } = data;
 </script>
 
-<div class="user">You are logged in as {name}</div>
+<div class="status">
+	You are logged in as <span class="name">{name}</span>
+</div>
 
 <slot />
 
 <style>
-	.user {
-		float: right;
+	.status {
+		margin-block: 0.5rem;
+		text-align: right;
+	}
+	.name {
+		font-weight: bold;
 	}
 </style>

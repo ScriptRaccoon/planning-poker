@@ -14,8 +14,8 @@
 
 <style>
 	nav {
-		padding: 1rem;
-		background-color: #eee;
+		padding: 0.5em;
+		background-color: var(--light-color);
 	}
 	ul {
 		list-style-type: none;
