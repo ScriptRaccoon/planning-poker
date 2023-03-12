@@ -80,13 +80,17 @@ const socket_io_plugin = {
 			});
 
 			// DISCONNECT
+
 			socket.on("disconnect", async () => {
 				const member = members.find((m) => m.id == socket.id);
 				if (!member) return;
 				const room_id = member.room_id;
-				socket.leave(member.room_id);
+				socket.leave(room_id);
 				members = members.filter((m) => m.id != socket.id);
-				io.to(room_id).emit("members", members);
+				const room_members = members.filter(
+					(m) => m.room_id === room_id
+				);
+				io.to(room_id).emit("members", room_members);
 			});
 		});
 	},

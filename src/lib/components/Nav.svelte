@@ -1,13 +1,13 @@
 <nav>
 	<ul>
 		<li>
-			<a href="/">Home</a>
+			<a data-sveltekit-reload href="/">Home</a>
 		</li>
 		<li>
-			<a href="/room">Rooms</a>
+			<a data-sveltekit-reload href="/room">Rooms</a>
 		</li>
 		<li>
-			<a href="/login">Login</a>
+			<a data-sveltekit-reload href="/login">Login</a>
 		</li>
 	</ul>
 </nav>
