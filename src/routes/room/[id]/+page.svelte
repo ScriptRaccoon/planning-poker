@@ -105,11 +105,11 @@
 					</span>
 				{:else}
 					<div
-						aria-label={member.estimated
+						aria-label={member.estimate != null
 							? "Estimated"
 							: "Not estimated"}
 						class="circle"
-						class:estimated={member.estimated}
+						class:estimated={member.estimate != null}
 					/>
 				{/if}
 			</td>

@@ -21,5 +21,4 @@ type member = {
 	name: string;
 	room_id: string;
 	estimate: null | number;
-	estimated: boolean;
 };

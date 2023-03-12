@@ -29,7 +29,6 @@ const socket_io_plugin = {
 					name: name,
 					room_id: room_id,
 					estimate: null,
-					estimated: false,
 				};
 
 				members.push(member);
@@ -46,7 +45,6 @@ const socket_io_plugin = {
 				const member = members.find((m) => m.id == socket.id);
 				if (!member) return;
 				member.estimate = estimate;
-				member.estimated = true;
 
 				const room_members = members.filter(
 					(m) => m.room_id === room_id
@@ -58,7 +56,6 @@ const socket_io_plugin = {
 			socket.on("reset_estimate", (room_id) => {
 				const member = members.find((m) => m.id == socket.id);
 				if (!member) return;
-				member.estimated = false;
 				member.estimate = null;
 				const room_members = members.filter(
 					(m) => m.room_id === room_id
