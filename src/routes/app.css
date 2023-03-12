@@ -4,6 +4,11 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--primary-color: darkgreen;
+	--secondary-color: tomato;
+}
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	line-height: 1.5;
@@ -45,7 +50,7 @@ button:disabled {
 }
 
 .button {
-	background-color: teal;
+	background-color: var(--primary-color);
 	color: white;
 	padding: 0.2rem 0.4rem;
 }

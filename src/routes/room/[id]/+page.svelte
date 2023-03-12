@@ -59,10 +59,7 @@
 
 <h1>Room {room_id}</h1>
 
-<div>
-	<b>Members:</b>
-	{members.map((m) => m.name)}
-</div>
+<h2>Choose an estimate</h2>
 
 <div class="cards">
 	{#each allowed_estimates as _estimate}
@@ -98,9 +95,17 @@
 			<td>{member.name}</td>
 			<td>
 				{#if revealed}
-					{member.estimate}
+					<span class="estimate">
+						{@html member.estimate ?? "&ndash;"}
+					</span>
 				{:else}
-					{member.estimated}
+					<div
+						aria-label={member.estimated
+							? "Estimated"
+							: "Not estimated"}
+						class="circle"
+						class:estimated={member.estimated}
+					/>
 				{/if}
 			</td>
 		</tr>
@@ -128,12 +133,32 @@
 	}
 
 	.card.chosen {
-		border: 0.2rem solid darkgreen;
+		border: 0.2rem solid var(--primary-color);
 	}
 
 	menu {
 		display: flex;
 		gap: 1rem;
 		padding-block: 1rem;
+	}
+
+	table {
+		border-spacing: 0.5rem;
+		font-size: 1.2rem;
+	}
+
+	.circle {
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		background-color: var(--secondary-color);
+	}
+
+	.circle.estimated {
+		background-color: var(--primary-color);
+	}
+
+	.estimate {
+		font-weight: bold;
 	}
 </style>
