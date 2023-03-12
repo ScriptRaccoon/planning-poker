@@ -80,7 +80,11 @@
 		disabled={estimate === null}>Reset</button
 	>
 
-	<button class="button" on:click={reveal_estimates}>
+	<button
+		class="button"
+		on:click={reveal_estimates}
+		disabled={revealed}
+	>
 		Reveal
 	</button>
 	<button class="button danger" on:click={reset_all_estimates}>
