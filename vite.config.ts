@@ -37,6 +37,30 @@ const socket_io_plugin = {
 				socket.data.name = name;
 			});
 
+			socket.on("estimate", (estimate) => {
+				socket.data.estimate = estimate;
+			});
+
+			socket.on("reveal_estimates", async () => {
+				const room_id = socket.data.room_id;
+				if (!room_id) return;
+				const sockets_in_room = await io
+					.in(room_id)
+					.fetchSockets();
+				const estimates = sockets_in_room.map((s) => ({
+					id: s.id,
+					name: s.data.name,
+					estimate: s.data.estimate,
+				}));
+				io.to(room_id).emit("estimates", estimates);
+			});
+
+			socket.on("reset_estimates", () => {
+				const room_id = socket.data.room_id;
+				if (!room_id) return;
+				io.to(room_id).emit("reset_estimate");
+			});
+
 			socket.on("disconnect", async () => {
 				const room_id = socket.data.room_id;
 				if (!room_id) return;

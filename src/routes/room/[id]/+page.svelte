@@ -11,6 +11,33 @@
 	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 		io();
 
+	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21];
+
+	let my_estimate: number | null = null;
+
+	let estimates_in_room: {
+		id: string;
+		estimate?: number;
+		name?: string;
+	}[] = [];
+
+	function choose_estimate(estimate: number) {
+		my_estimate = estimate;
+		socket.emit("estimate", my_estimate);
+	}
+
+	function reset_my_estimate() {
+		my_estimate = null;
+	}
+
+	function reset_all_estimates() {
+		socket.emit("reset_estimates");
+	}
+
+	function reveal_estimates() {
+		socket.emit("reveal_estimates");
+	}
+
 	socket.on("connect", () => {
 		socket.emit("name", name);
 		socket.emit("room_id", id);
@@ -20,25 +47,14 @@
 		members = _members;
 	});
 
-	const estimates = [1, 2, 3, 5, 8, 13, 21];
+	socket.on("estimates", (estimates) => {
+		estimates_in_room = estimates;
+	});
 
-	let my_estimate: number | null = null;
-
-	function choose_estimate(estimate: number) {
-		my_estimate = estimate;
-	}
-
-	function reset_my_estimate() {
-		my_estimate = null;
-	}
-
-	function reset_all_estimates() {
-		// TODO
-	}
-
-	function reveal_estimates() {
-		// TODO
-	}
+	socket.on("reset_estimate", () => {
+		reset_my_estimate();
+		estimates_in_room = [];
+	});
 </script>
 
 <svelte:head>
@@ -53,7 +69,7 @@
 </div>
 
 <div class="cards">
-	{#each estimates as estimate}
+	{#each allowed_estimates as estimate}
 		<button
 			class="card"
 			class:chosen={estimate === my_estimate}
@@ -77,6 +93,10 @@
 		Reveal estimates
 	</button>
 </menu>
+
+<h2>Estimates</h2>
+
+{JSON.stringify(estimates_in_room)}
 
 <style>
 	.cards {
