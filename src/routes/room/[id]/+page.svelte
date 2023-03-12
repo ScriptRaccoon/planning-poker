@@ -11,10 +11,8 @@
 	const socket = io();
 
 	socket.on("connect", () => {
-		if (name) {
-			socket.emit("name", name);
-			socket.emit("room_id", id);
-		}
+		socket.emit("name", name);
+		socket.emit("room_id", id);
 	});
 
 	socket.on("members", (_members) => {
