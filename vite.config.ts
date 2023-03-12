@@ -3,12 +3,18 @@ import { defineConfig } from "vite";
 import * as path from "path";
 import { Server as ioServer } from "socket.io";
 
-import type { ViteDevServer, UserConfig } from "vite";
+import type { ViteDevServer } from "vite";
 
 const socket_io_plugin = {
 	name: "socket.io plugin",
 	configureServer(server: ViteDevServer) {
-		const io = new ioServer(server.httpServer!);
+		const io = new ioServer<
+			ClientToServerEvents,
+			ServerToClientEvents,
+			InterServerEvents,
+			SocketData
+		>(server.httpServer!);
+
 		io.on("connection", (socket) => {
 			console.log("got connection with", socket.id);
 
@@ -18,10 +24,12 @@ const socket_io_plugin = {
 				const sockets_in_room = await io
 					.in(room_id)
 					.fetchSockets();
-				const members = sockets_in_room.map((s) => ({
-					id: s.id,
-					name: s.data.name,
-				}));
+				const members: member[] = sockets_in_room.map(
+					(s) => ({
+						id: s.id,
+						name: s.data.name,
+					})
+				);
 				io.to(room_id).emit("members", members);
 			});
 
@@ -31,6 +39,7 @@ const socket_io_plugin = {
 
 			socket.on("disconnect", async () => {
 				const room_id = socket.data.room_id;
+				if (!room_id) return;
 				socket.leave(room_id);
 				const sockets_in_room = await io
 					.in(room_id)

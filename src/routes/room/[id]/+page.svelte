@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { io } from "socket.io-client";
+	import { io, Socket } from "socket.io-client";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
 
 	const { name, id } = data;
 
-	let members: any[] = [];
+	let members: member[] = [];
 
-	const socket = io();
+	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+		io();
 
 	socket.on("connect", () => {
 		socket.emit("name", name);
