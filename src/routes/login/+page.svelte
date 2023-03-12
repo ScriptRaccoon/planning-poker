@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { set_data_dev } from "svelte/internal";
 	import type { ActionData, PageData } from "./$types";
 	export let data: PageData;
 	export let form: ActionData;

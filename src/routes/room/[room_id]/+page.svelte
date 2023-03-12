@@ -7,15 +7,15 @@
 
 	let members: member[] = [];
 
-	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21] as const;
+	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21, "?"] as const;
 
-	let estimate: number | null = null;
+	let estimate: estimate_type = null;
 	let estimates_revealed = false;
 
 	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 		io();
 
-	function choose_estimate(_estimate: number) {
+	function choose_estimate(_estimate: estimate_type) {
 		estimate = _estimate;
 		socket.emit("estimate", { estimate, room_id });
 	}
