@@ -5,6 +5,10 @@
 	export let form: ActionData;
 </script>
 
+<svelte:head>
+	<title>Planning Poker - Login</title>
+</svelte:head>
+
 <h1>Login</h1>
 
 <form method="POST">

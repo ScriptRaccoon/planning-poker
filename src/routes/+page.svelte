@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>SvelteKit Rooms</title>
+	<title>Planning Poker</title>
 </svelte:head>
 
-<h1>SvelteKit Rooms</h1>
+<h1>Planning Poker</h1>

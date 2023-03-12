@@ -41,6 +41,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Room {id} - Planning Poker</title>
+</svelte:head>
+
 <h1>Room {id}</h1>
 
 <div>
