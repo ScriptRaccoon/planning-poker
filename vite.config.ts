@@ -15,65 +15,75 @@ const socket_io_plugin = {
 			SocketData
 		>(server.httpServer!);
 
+		let members: member[] = [];
+
 		io.on("connection", (socket) => {
-			console.log("got connection with", socket.id);
-
-			socket.on("room_id", async (room_id) => {
+			// LOGIN
+			socket.on("login", ({ room_id, name }) => {
 				socket.join(room_id);
-				socket.data.room_id = room_id;
-				const sockets_in_room = await io
-					.in(room_id)
-					.fetchSockets();
-				const members: member[] = sockets_in_room.map(
-					(s) => ({
-						id: s.id,
-						name: s.data.name,
-					})
+
+				if (members.some((m) => m.id === socket.id)) return;
+
+				const member: member = {
+					id: socket.id,
+					name: name,
+					room_id: room_id,
+					estimate: null,
+					estimated: false,
+				};
+
+				members.push(member);
+
+				const room_members = members.filter(
+					(m) => m.room_id === room_id
 				);
-				io.to(room_id).emit("members", members);
+
+				io.to(room_id).emit("members", room_members);
 			});
 
-			socket.on("name", (name) => {
-				socket.data.name = name;
+			// ESTIMATE
+			socket.on("estimate", ({ room_id, estimate }) => {
+				const member = members.find((m) => m.id == socket.id);
+				if (!member) return;
+				member.estimate = estimate;
+				member.estimated = true;
+
+				const room_members = members.filter(
+					(m) => m.room_id === room_id
+				);
+
+				io.to(room_id).emit("members", room_members);
 			});
 
-			socket.on("estimate", (estimate) => {
-				socket.data.estimate = estimate;
+			socket.on("reset_estimate", (room_id) => {
+				const member = members.find((m) => m.id == socket.id);
+				if (!member) return;
+				member.estimated = false;
+				member.estimate = null;
+				const room_members = members.filter(
+					(m) => m.room_id === room_id
+				);
+
+				io.to(room_id).emit("members", room_members);
 			});
 
-			socket.on("reveal_estimates", async () => {
-				const room_id = socket.data.room_id;
-				if (!room_id) return;
-				const sockets_in_room = await io
-					.in(room_id)
-					.fetchSockets();
-				const estimates = sockets_in_room.map((s) => ({
-					id: s.id,
-					name: s.data.name,
-					estimate: s.data.estimate,
-				}));
-				io.to(room_id).emit("estimates", estimates);
+			// REVEAL
+			socket.on("reveal_estimates", async (room_id) => {
+				io.to(room_id).emit("reveal_estimates");
 			});
 
-			socket.on("reset_estimates", () => {
-				const room_id = socket.data.room_id;
-				if (!room_id) return;
+			// RESET
+			socket.on("reset_estimates", (room_id) => {
 				io.to(room_id).emit("reset_estimate");
 			});
 
+			// DISCONNECT
 			socket.on("disconnect", async () => {
-				const room_id = socket.data.room_id;
-				if (!room_id) return;
-				socket.leave(room_id);
-				const sockets_in_room = await io
-					.in(room_id)
-					.fetchSockets();
-				const members = sockets_in_room
-					.map((s) => ({
-						id: s.id,
-						name: s.data.name,
-					}))
-					.filter((s) => s.id != socket.id);
+				const member = members.find((m) => m.id == socket.id);
+				if (!member) return;
+				const room_id = member.room_id;
+				socket.leave(member.room_id);
+				members = members.filter((m) => m.id != socket.id);
 				io.to(room_id).emit("members", members);
 			});
 		});

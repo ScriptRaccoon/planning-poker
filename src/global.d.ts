@@ -1,28 +1,25 @@
 interface ServerToClientEvents {
 	members: (m: member[]) => void;
-	estimates: (
-		x: { id: string; estimate?: number; name?: string }[]
-	) => void;
+	reveal_estimates: () => void;
 	reset_estimate: () => void;
 }
 
 interface ClientToServerEvents {
-	room_id: (id: string) => void;
-	name: (n: string) => void;
-	estimate: (e: number) => void;
-	reveal_estimates: () => void;
-	reset_estimates: () => void;
+	login: ({ room_id: string, name: string }) => void;
+	estimate: ({ room_id: string, estimate: number }) => void;
+	reveal_estimates: (room_id: string) => void;
+	reset_estimates: (room_id: string) => void;
+	reset_estimate: (room_id: string) => void;
 }
 
 interface InterServerEvents {}
 
-interface SocketData {
-	name: string;
-	room_id: string;
-	estimate: number;
-}
+interface SocketData {}
 
 type member = {
 	id: string;
 	name: string;
+	room_id: string;
+	estimate: null | number;
+	estimated: boolean;
 };

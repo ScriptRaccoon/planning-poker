@@ -4,64 +4,60 @@
 
 	export let data: PageData;
 
-	const { name, id } = data;
+	const { name, id: room_id } = data;
 
 	let members: member[] = [];
+
+	let revealed = false;
 
 	const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 		io();
 
 	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21];
 
-	let my_estimate: number | null = null;
+	let estimate: number | null = null;
 
-	let estimates_in_room: {
-		id: string;
-		estimate?: number;
-		name?: string;
-	}[] = [];
-
-	function choose_estimate(estimate: number) {
-		my_estimate = estimate;
-		socket.emit("estimate", my_estimate);
+	function choose_estimate(_estimate: number) {
+		estimate = _estimate;
+		socket.emit("estimate", { estimate, room_id });
 	}
 
 	function reset_my_estimate() {
-		my_estimate = null;
+		estimate = null;
+		socket.emit("reset_estimate", room_id);
 	}
 
 	function reset_all_estimates() {
-		socket.emit("reset_estimates");
+		socket.emit("reset_estimates", room_id);
 	}
 
 	function reveal_estimates() {
-		socket.emit("reveal_estimates");
+		socket.emit("reveal_estimates", room_id);
 	}
 
 	socket.on("connect", () => {
-		socket.emit("name", name);
-		socket.emit("room_id", id);
+		socket.emit("login", { name, room_id });
 	});
 
 	socket.on("members", (_members) => {
 		members = _members;
 	});
 
-	socket.on("estimates", (estimates) => {
-		estimates_in_room = estimates;
-	});
-
 	socket.on("reset_estimate", () => {
 		reset_my_estimate();
-		estimates_in_room = [];
+		revealed = false;
+	});
+
+	socket.on("reveal_estimates", () => {
+		revealed = true;
 	});
 </script>
 
 <svelte:head>
-	<title>Room {id} - Planning Poker</title>
+	<title>Room {room_id} - Planning Poker</title>
 </svelte:head>
 
-<h1>Room {id}</h1>
+<h1>Room {room_id}</h1>
 
 <div>
 	<b>Members:</b>
@@ -69,13 +65,13 @@
 </div>
 
 <div class="cards">
-	{#each allowed_estimates as estimate}
+	{#each allowed_estimates as _estimate}
 		<button
 			class="card"
-			class:chosen={estimate === my_estimate}
-			on:click={() => choose_estimate(estimate)}
+			class:chosen={_estimate === estimate}
+			on:click={() => choose_estimate(_estimate)}
 		>
-			{estimate}
+			{_estimate}
 		</button>
 	{/each}
 </div>
@@ -84,7 +80,7 @@
 	<button
 		class="button"
 		on:click={reset_my_estimate}
-		disabled={my_estimate === null}>Reset my estimate</button
+		disabled={estimate === null}>Reset my estimate</button
 	>
 	<button class="button" on:click={reset_all_estimates}>
 		Reset all estimates</button
@@ -96,7 +92,20 @@
 
 <h2>Estimates</h2>
 
-{JSON.stringify(estimates_in_room)}
+<table>
+	{#each members as member (member.id)}
+		<tr>
+			<td>{member.name}</td>
+			<td>
+				{#if revealed}
+					{member.estimate}
+				{:else}
+					{member.estimated}
+				{/if}
+			</td>
+		</tr>
+	{/each}
+</table>
 
 <style>
 	.cards {
