@@ -1,13 +1,13 @@
-interface ServerToClientEvents {
+export interface ServerToClientEvents {
 	members: (x: member[]) => void;
 	reveal_estimates: () => void;
 	reset_estimate: () => void;
 	story: (x: string) => void;
 }
 
-type estimate_type = number | "?" | null;
+export type estimate_type = number | "?" | null;
 
-interface ClientToServerEvents {
+export interface ClientToServerEvents {
 	login: (x: { room_id: string; name: string }) => void;
 	estimate: (x: {
 		room_id: string;
@@ -19,11 +19,11 @@ interface ClientToServerEvents {
 	story: (x: { room_id: string; story: string }) => void;
 }
 
-interface InterServerEvents {}
+export interface InterServerEvents {}
 
-interface SocketData {}
+export interface SocketData {}
 
-type member = {
+export type member = {
 	id: string;
 	name: string;
 	room_id: string;

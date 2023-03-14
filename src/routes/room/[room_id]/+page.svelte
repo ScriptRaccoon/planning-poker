@@ -4,6 +4,12 @@
 	import type { PageData } from "./$types";
 	import { scale, fade } from "svelte/transition";
 	import { backOut } from "svelte/easing";
+	import type {
+		member,
+		estimate_type,
+		ServerToClientEvents,
+		ClientToServerEvents,
+	} from "../../../../types";
 
 	export let data: PageData;
 	const { name, room_id } = data;
