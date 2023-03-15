@@ -11,15 +11,28 @@
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	line-height: 1.5;
 }
+
 a {
 	color: inherit;
+	text-underline-offset: 0.1rem;
 }
 
 h1 {
 	padding-block: 1rem;
+	font-weight: 500;
+}
+
+h2 {
+	font-weight: 500;
+	padding-block: 0.5rem;
+}
+
+h1,
+h2 {
+	line-height: 1.2;
 }
 
 p {
@@ -35,6 +48,7 @@ input {
 	padding: 0.2rem;
 	outline: none;
 	background-color: #fff;
+	max-width: 100%;
 }
 
 input:focus {
@@ -60,11 +74,14 @@ button:disabled {
 	cursor: initial;
 }
 
+button:focus-visible {
+	outline-offset: 0.2rem;
+}
+
 .button {
 	background-color: var(--primary-color);
 	color: white;
 	padding: 0.3rem 0.5rem;
-	border-radius: 0.25rem;
 }
 
 button.danger {
