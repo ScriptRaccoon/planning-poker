@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "node server.js",
+		"start": "ORIGIN=http://localhost:3000 node server.js",
 		"dev": "vite dev",
 		"build:kit": "vite build",
 		"build:server": "tsc server.ts --esModuleInterop --target esnext --moduleResolution node --removeComments",
