@@ -8,7 +8,7 @@ import type {
 	SocketData,
 	member,
 	room,
-} from "./types";
+} from "$lib/types";
 
 export function attach_sockets(server: Server) {
 	const io = new ioServer<

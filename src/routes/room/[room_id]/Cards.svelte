@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { estimate_type } from "../../../../types";
+	import type { estimate_type } from "$lib/types";
 	const allowed_estimates = [1, 2, 3, 5, 8, 13, 21, "?"] as const;
 	export let estimate: estimate_type = null;
 	export let choose_estimate: (e: estimate_type) => void;

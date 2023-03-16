@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { estimate_type } from "../../../../types";
+	import type { estimate_type } from "$lib/types";
 	export let estimate: estimate_type;
 	export let reset_estimate: () => void;
 	export let reveal_estimates: () => void;

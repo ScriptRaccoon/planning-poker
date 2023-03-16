@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { scale, fade } from "svelte/transition";
 	import { backOut } from "svelte/easing";
-	import type { member } from "../../../../types";
+	import type { member } from "$lib/types";
 
 	export let member: member;
 	export let estimates_revealed: boolean;

@@ -6,7 +6,7 @@
 		estimate_type,
 		ServerToClientEvents,
 		ClientToServerEvents,
-	} from "../../../../types";
+	} from "$lib/types";
 	import Cards from "./Cards.svelte";
 	import Menu from "./Menu.svelte";
 	import Story from "./Story.svelte";

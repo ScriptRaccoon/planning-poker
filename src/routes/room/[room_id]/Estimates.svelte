@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { member } from "../../../../types";
+	import type { member } from "$lib/types";
 	import Estimate from "./Estimate.svelte";
 
 	export let members: member[];
