@@ -11,6 +11,7 @@
 	import Menu from "./Menu.svelte";
 	import Story from "./Story.svelte";
 	import Estimates from "./Estimates.svelte";
+	import { beforeNavigate } from "$app/navigation";
 
 	export let name: string;
 	export let room_id: string;
@@ -67,6 +68,10 @@
 	const emit_story = debounce(() => {
 		socket.emit("story", { story, room_id });
 	}, 250);
+
+	beforeNavigate(() => {
+		socket.disconnect();
+	});
 </script>
 
 <h1>Room {room_id}</h1>
