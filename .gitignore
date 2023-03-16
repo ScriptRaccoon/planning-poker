@@ -11,4 +11,4 @@ vite.config.ts.timestamp-*
 todo.txt
 server.js
 sockets.js
-types.js
+src/lib/types/*.js
