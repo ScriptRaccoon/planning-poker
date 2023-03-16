@@ -76,7 +76,7 @@
 
 <h1>Room {room_id}</h1>
 
-<Story {story} {emit_story} />
+<Story bind:story {emit_story} />
 
 <Cards {estimate} {choose_estimate} />
 

@@ -7,6 +7,7 @@ import type {
 	InterServerEvents,
 	SocketData,
 	member,
+	room,
 } from "./types";
 
 export function attach_sockets(server: Server) {
@@ -18,11 +19,22 @@ export function attach_sockets(server: Server) {
 	>(server);
 
 	let members: member[] = [];
+	let rooms: room[] = [];
 
 	io.on("connection", (socket) => {
 		// LOGIN
 		socket.on("login", ({ room_id, name }) => {
 			socket.join(room_id);
+
+			let room = rooms.find((r) => r.id === room_id);
+
+			if (!room) {
+				room = {
+					id: room_id,
+					story: "",
+				};
+				rooms.push(room);
+			}
 
 			if (members.some((m) => m.id === socket.id)) return;
 
@@ -38,6 +50,8 @@ export function attach_sockets(server: Server) {
 			const room_members = members.filter(
 				(m) => m.room_id === room_id
 			);
+
+			io.to(socket.id).emit("story", room.story);
 
 			io.to(room_id).emit("members", room_members);
 		});
@@ -80,6 +94,8 @@ export function attach_sockets(server: Server) {
 		// USER STORY
 		socket.on("story", ({ room_id, story }) => {
 			io.to(room_id).emit("story", story);
+			const room = rooms.find((r) => r.id == room_id);
+			if (room) room.story = story;
 		});
 
 		// DISCONNECT
@@ -87,7 +103,6 @@ export function attach_sockets(server: Server) {
 			const member = members.find((m) => m.id == socket.id);
 			if (!member) return;
 			const room_id = member.room_id;
-			socket.leave(room_id);
 			members = members.filter((m) => m.id != socket.id);
 			const room_members = members.filter(
 				(m) => m.room_id === room_id

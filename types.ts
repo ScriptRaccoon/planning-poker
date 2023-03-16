@@ -29,3 +29,8 @@ export type member = {
 	room_id: string;
 	estimate: estimate_type;
 };
+
+export type room = {
+	id: string;
+	story: string;
+};
