@@ -30,6 +30,13 @@
 	> for more details.
 </p>
 
+<p>
+	The code of this app can be found on <a
+		href="https://github.com/ScriptRaccoon/planning-poker"
+		target="_blank">GitHub</a
+	>.
+</p>
+
 <style>
 	ul {
 		padding-left: 1.5rem;
