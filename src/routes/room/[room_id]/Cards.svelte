@@ -22,29 +22,19 @@
 
 <style lang="scss">
 	.cards {
-		width: fit-content;
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
 		gap: 1rem;
 		padding-block: 1rem;
-
-		@media (max-width: 26rem) {
-			margin: 0 auto;
-			place-items: center;
-			grid-template-columns: repeat(2, 1fr);
-		}
 	}
 
 	.card {
-		padding: 0;
-		width: 5rem;
-		height: 6.5rem;
+		aspect-ratio: 1/1.4;
 		border: 0.1rem solid gray;
 		border-radius: 0.4rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 2.5rem;
+		display: grid;
+		place-content: center;
+		font-size: 3.25rem;
 		background: linear-gradient(to bottom right, #fff, #e0e0e0);
 	}
 
