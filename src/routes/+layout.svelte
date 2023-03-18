@@ -14,5 +14,6 @@
 		max-width: 38rem;
 		margin: 0 auto;
 		padding-inline: 0.5rem;
+		padding-bottom: 1.5rem;
 	}
 </style>
